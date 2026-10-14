@@ -1,0 +1,15 @@
+// M3-4 SVG 動畫示意圖：六個題目各一張，viewBox 480×240，寬度 100%。
+import './schematics.css'
+
+export { default as ShadeSchematic } from './Shade'
+export { default as BinsSchematic } from './Bins'
+export { default as RatsSchematic } from './Rats'
+export { default as TrafficSchematic } from './Traffic'
+export { default as BusSchematic } from './Bus'
+export { default as SeismicSchematic } from './Seismic'
+export type { ShadeProps } from './Shade'
+export type { BinsProps } from './Bins'
+export type { RatsProps } from './Rats'
+export type { TrafficProps } from './Traffic'
+export type { BusProps } from './Bus'
+export type { SeismicProps } from './Seismic'

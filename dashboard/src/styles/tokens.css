@@ -1,0 +1,65 @@
+/* Design tokens. Dark surface only (this is an operations console).
+   Domain colors = validated dark categorical slots; always paired with code + icon + label.
+   Status colors are reserved for state and always ship with an icon + label. */
+:root {
+  color-scheme: dark;
+
+  /* surfaces */
+  --bg-app: #0f1216;
+  --bg-map: #111419;
+  --bg-1: #1c2127;
+  --bg-2: #252a31;
+  --bg-3: #2f343c;
+  --line-1: #2a2f36;
+  --line-2: #383e47;
+  --line-3: #404854;
+
+  /* ink */
+  --ink-1: #f6f7f9;
+  --ink-2: #abb3bf;
+  --ink-3: #8f99a8;
+  --ink-4: #5f6b7c;
+
+  /* interaction */
+  --focus: #8abbff;
+  --select: #f6f7f9;
+
+  /* domains 01–06 */
+  --d1: #008300;
+  --d2: #9085e9;
+  --d3: #d55181;
+  --d4: #c98500;
+  --d5: #3987e5;
+  --d6: #d95926;
+
+  /* status (reserved) */
+  --good: #0ca30c;
+  --warning: #fab219;
+  --serious: #ec835a;
+  --critical: #d03b3b;
+
+  /* sequential blue, dark surface: low = dark, high = light */
+  --seq-1: #0d366b;
+  --seq-2: #184f95;
+  --seq-3: #256abf;
+  --seq-4: #3987e5;
+  --seq-5: #6da7ec;
+  --seq-6: #9ec5f4;
+  --seq-7: #cde2fb;
+
+  /* diverging red <-> blue, gray midpoint */
+  --div-neg: #e66767;
+  --div-mid: #383835;
+  --div-pos: #6da7ec;
+
+  /* type */
+  --font-ui: "IBM Plex Sans", "Noto Sans TC", "PingFang TC", system-ui, sans-serif;
+  --font-num: "IBM Plex Mono", "Noto Sans TC", ui-monospace, monospace;
+  --font-mark: "Chakra Petch", "IBM Plex Sans", sans-serif;
+
+  /* layout */
+  --topbar-h: 44px;
+  --status-h: 24px;
+  --rail-w: 68px;
+  --r: 2px;
+}

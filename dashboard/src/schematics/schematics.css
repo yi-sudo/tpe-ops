@@ -1,0 +1,183 @@
+/* SVG 示意圖（M3-4）：共用樣式與 @keyframes。
+   顏色一律取自 tokens.css 的 CSS 變數；狀態色只用在狀態標示，且一定搭配圖示與文字。
+   需要依 props 計算位置的動畫（清運車、DRTS 小巴、清潔箱水位）由元件產生 inline @keyframes。 */
+
+.schem {
+  display: block;
+  width: 100%;
+  height: auto;
+  font-family: var(--font-ui);
+  user-select: none;
+}
+.schem text { fill: var(--ink-2); font-size: 11px; }
+.schem .num { font-family: var(--font-num); font-variant-numeric: tabular-nums; }
+.schem .sc-tag { font-family: var(--font-num); font-size: 10px; letter-spacing: .08em; fill: var(--ink-3); }
+.schem .sm { font-size: 10px; }
+.schem .lg { font-size: 13px; }
+.schem .xl { font-size: 16px; }
+.schem .b { font-weight: 600; }
+.schem .mid { text-anchor: middle; }
+.schem .end { text-anchor: end; }
+
+/* 文字：只用 ink */
+.schem .ink1 { fill: var(--ink-1); }
+.schem .ink2 { fill: var(--ink-2); }
+.schem .ink3 { fill: var(--ink-3); }
+.schem .ink4 { fill: var(--ink-4); }
+
+/* 填色 */
+.schem .f-none { fill: none; }
+.schem .f-app { fill: var(--bg-app); }
+.schem .f-bg1 { fill: var(--bg-1); }
+.schem .f-bg2 { fill: var(--bg-2); }
+.schem .f-bg3 { fill: var(--bg-3); }
+.schem .f-ink1 { fill: var(--ink-1); }
+.schem .f-ink2 { fill: var(--ink-2); }
+.schem .f-ink3 { fill: var(--ink-3); }
+.schem .f-ink4 { fill: var(--ink-4); }
+.schem .f-d1 { fill: var(--d1); }
+.schem .f-d2 { fill: var(--d2); }
+.schem .f-d3 { fill: var(--d3); }
+.schem .f-d4 { fill: var(--d4); }
+.schem .f-d5 { fill: var(--d5); }
+.schem .f-d6 { fill: var(--d6); }
+
+/* 線條 */
+.schem .s-ink1 { stroke: var(--ink-1); }
+.schem .s-ink2 { stroke: var(--ink-2); }
+.schem .s-ink3 { stroke: var(--ink-3); }
+.schem .s-ink4 { stroke: var(--ink-4); }
+.schem .s-l1 { stroke: var(--line-1); }
+.schem .s-l2 { stroke: var(--line-2); }
+.schem .s-l3 { stroke: var(--line-3); }
+.schem .s-d1 { stroke: var(--d1); }
+.schem .s-d2 { stroke: var(--d2); }
+.schem .s-d3 { stroke: var(--d3); }
+.schem .s-d4 { stroke: var(--d4); }
+.schem .s-d5 { stroke: var(--d5); }
+.schem .s-d6 { stroke: var(--d6); }
+.schem .w1 { stroke-width: 1; }
+.schem .w15 { stroke-width: 1.5; }
+.schem .dash { stroke-dasharray: 3 2; }
+.schem .round { stroke-linecap: round; stroke-linejoin: round; }
+
+/* 狀態（只用在圖示，旁邊一定有文字） */
+.schem .st-good { fill: var(--good); }
+.schem .st-warning { fill: var(--warning); }
+.schem .st-serious { fill: var(--serious); }
+.schem .st-critical { fill: var(--critical); }
+
+/* 模擬資料標章：虛線框 + 斜線底紋 */
+.schem .sc-mock-box { stroke: var(--ink-2); stroke-width: 1; stroke-dasharray: 3 2; }
+.schem .sc-mock-text { fill: var(--ink-1); font-size: 10px; font-weight: 600; letter-spacing: .06em; text-anchor: middle; }
+
+/* ---------- 動畫 ---------- */
+
+@keyframes sc-spin { to { transform: rotate(360deg); } }
+.schem .a-spin { animation: sc-spin 60s linear infinite; }
+
+@keyframes sc-flow { to { stroke-dashoffset: -20; } }
+.schem .a-flow { animation: sc-flow 1.4s linear infinite; }
+
+/* 曝曬熱氣：往上飄、淡出 */
+@keyframes sc-heat {
+  0% { transform: translateY(3px); opacity: 0; }
+  30% { opacity: .9; }
+  100% { transform: translateY(-9px); opacity: 0; }
+}
+.schem .a-heat { animation: sc-heat 2.6s ease-out infinite; }
+
+/* 長者慢慢走過整條人行道 */
+@keyframes sc-walk { from { transform: translateX(-30px); } to { transform: translateX(510px); } }
+.schem .a-walk { animation: sc-walk 52s linear infinite; }
+@keyframes sc-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1px); } }
+.schem .a-bob { animation: sc-bob 1.1s ease-in-out infinite; }
+
+/* 新增物件出現 */
+@keyframes sc-pop { from { transform: scale(.25); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.schem .a-pop { transform-box: fill-box; transform-origin: 50% 100%; animation: sc-pop .55s cubic-bezier(.2, .9, .3, 1.15) both; }
+
+/* 老鼠來回竄（--dx 由元件給；掉頭是瞬間翻面，不經過 scaleX(0)） */
+@keyframes sc-scurry {
+  0% { transform: translateX(0) scaleX(1); }
+  42%, 50% { transform: translateX(var(--dx, 16px)) scaleX(1); }
+  50.1% { transform: translateX(var(--dx, 16px)) scaleX(-1); }
+  92%, 99.9% { transform: translateX(0) scaleX(-1); }
+  100% { transform: translateX(0) scaleX(1); }
+}
+.schem .a-scurry { transform-box: fill-box; transform-origin: 50% 50%; animation: sc-scurry 3.2s ease-in-out infinite; }
+
+/* 被捕捉：淡出成 × */
+@keyframes sc-fade { from { opacity: 1; } to { opacity: 0; } }
+.schem .a-fade { animation: sc-fade .6s ease-out both; }
+
+/* 地震波（地下同心圓） */
+@keyframes sc-wave {
+  0% { transform: scale(.08); opacity: 0; }
+  8% { opacity: .85; }
+  60% { opacity: 0; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+.schem .a-wave { transform-box: fill-box; transform-origin: 50% 50%; animation: sc-wave 4.8s ease-out infinite; }
+.schem .a-wave * , .schem .a-wave { vector-effect: non-scaling-stroke; }
+
+/* 老舊建物搖晃（與地震波同一個 4.8 秒週期） */
+@keyframes sc-sway {
+  0%, 14% { transform: rotate(0); }
+  19% { transform: rotate(-1.8deg); }
+  24% { transform: rotate(1.5deg); }
+  29% { transform: rotate(-1.1deg); }
+  34% { transform: rotate(.7deg); }
+  39% { transform: rotate(-.35deg); }
+  46%, 100% { transform: rotate(0); }
+}
+.schem .a-sway { transform-box: fill-box; transform-origin: 50% 100%; animation: sc-sway 4.8s ease-in-out infinite; }
+
+/* 幹線公車：沿道路往右開（--run 由元件給） */
+@keyframes sc-drive { from { transform: translateX(0); } to { transform: translateX(var(--run, 300px)); } }
+.schem .a-drive { animation: sc-drive 12s linear infinite; }
+
+/* 班表時間指針 */
+@keyframes sc-scan { from { transform: translateX(0); } to { transform: translateX(var(--run, 240px)); } }
+.schem .a-scan { animation: sc-scan 14s linear infinite; }
+
+/* 狀態閃爍（只用在小圖示） */
+@keyframes sc-blink { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+.schem .a-blink { animation: sc-blink 1.2s ease-in-out infinite; }
+
+/* 車流示意的車子：密度改變時淡入淡出 */
+.schem .sc-car { transition: opacity .35s ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  .schem *, .schem *::before, .schem *::after { animation: none !important; transition: none !important; }
+}
+
+/* ---------- 示意圖庫（#/schem） ---------- */
+
+.sc-gallery {
+  box-sizing: border-box;
+  height: 100%;
+  overflow: auto;
+  padding: 16px 20px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.sc-gallery-head h1 { margin: 0; font: 600 16px/1.3 var(--font-ui); color: var(--ink-1); }
+.sc-gallery-head p { margin: 4px 0 0; font-size: 12px; line-height: 1.5; color: var(--ink-3); }
+.sc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(440px, 1fr)); gap: 12px; }
+.sc-card { display: flex; flex-direction: column; background: var(--bg-1); border: 1px solid var(--line-1); border-radius: var(--r); }
+.sc-card-head { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 1px solid var(--line-1); }
+.sc-card-sw { width: 8px; height: 8px; flex: none; }
+.sc-card-code { font: 500 11px var(--font-num); letter-spacing: .06em; color: var(--ink-3); }
+.sc-card-title { font-size: 13px; color: var(--ink-1); }
+.sc-card-body { padding: 8px 12px 4px; }
+.sc-ctrl { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; padding: 6px 12px 12px; font-size: 12px; color: var(--ink-2); }
+.sc-ctrl input[type='range'] { width: 100%; accent-color: var(--ink-2); }
+.sc-ctrl output { min-width: 9ch; text-align: right; font-family: var(--font-num); font-variant-numeric: tabular-nums; color: var(--ink-1); }
+.sc-ctrl-extra { display: flex; align-items: center; gap: 8px; padding: 0 12px 12px; font-size: 12px; color: var(--ink-2); }
+.sc-seg { display: inline-flex; border: 1px solid var(--line-2); border-radius: var(--r); overflow: hidden; }
+.sc-seg button { padding: 3px 10px; border: 0; background: transparent; color: var(--ink-3); font: inherit; cursor: pointer; }
+.sc-seg button + button { border-left: 1px solid var(--line-2); }
+.sc-seg button[aria-pressed='true'] { background: var(--bg-3); color: var(--ink-1); }
+.sc-seg button:focus-visible { outline: 1px solid var(--focus); outline-offset: -1px; }

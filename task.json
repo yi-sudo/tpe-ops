@@ -1,0 +1,340 @@
+{
+  "project": "taipei_gogo 臺北市政營運儀表板",
+  "updated_at": "2026-10-14T17:00:00+08:00",
+  "scope": "題目 1–6（第 7 題先略過）。給市府內部用的專業儀表板，Palantir 風格，要呈現題目之間的關聯、解題後的成效指標和即時數值。",
+  "status_legend": {
+    "done": "完成",
+    "in_progress": "進行中",
+    "todo": "待辦",
+    "blocked": "卡住"
+  },
+  "milestones": [
+    {
+      "id": "M1",
+      "title": "需求與 API 盤點",
+      "status": "done",
+      "tasks": [
+        {
+          "id": "M1-1",
+          "title": "讀題目頁，整理 7 題需求",
+          "status": "done",
+          "done_at": "2026-10-14",
+          "output": [
+            "CLAUDE.md"
+          ]
+        },
+        {
+          "id": "M1-2",
+          "title": "申請並驗證 TDX 金鑰",
+          "status": "done",
+          "done_at": "2026-10-14",
+          "output": [
+            ".env",
+            "tdx_check.py"
+          ]
+        },
+        {
+          "id": "M1-3",
+          "title": "實測各題可用 API 並記錄",
+          "status": "done",
+          "done_at": "2026-10-14",
+          "output": [
+            "api.md"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M2",
+      "title": "資料管線（抓取、快取、處理）",
+      "status": "done",
+      "tasks": [
+        {
+          "id": "M2-1",
+          "title": "共用工具：節流、TDX token 快取、save_raw",
+          "status": "done",
+          "done_at": "2026-10-14",
+          "output": [
+            "pipeline/common.py"
+          ]
+        },
+        {
+          "id": "M2-2",
+          "title": "資料源登錄表",
+          "status": "done",
+          "done_at": "2026-10-14",
+          "output": [
+            "pipeline/sources.py"
+          ],
+          "note": "40 個資料組；problems 標記已對照程式實際用途修正（陳情六題都用；0 = 底圖、總覽、頂列共用）"
+        },
+        {
+          "id": "M2-3",
+          "title": "抓取 CLI，全部抓一次",
+          "status": "done",
+          "done_at": "2026-10-14",
+          "output": [
+            "pipeline/fetch.py",
+            "data/raw/"
+          ],
+          "note": "靜態 33 個全部成功（13:50），即時 5 個全部成功（13:51）"
+        },
+        {
+          "id": "M2-4",
+          "title": "檢查原始資料的欄位、編碼、座標系",
+          "status": "done",
+          "done_at": "2026-10-14"
+        },
+        {
+          "id": "M2-5",
+          "title": "處理程式：各里指標、點圖層、跨題目關聯、資料目錄",
+          "status": "done",
+          "output": [
+            "pipeline/build.py",
+            "pipeline/geo.py",
+            "dashboard/public/data/"
+          ],
+          "done_at": "2026-10-14",
+          "note": "約 6 秒建完：456 里六題指標、28 個輸出檔、成效曲線、關聯、資料目錄。分數取到小數 1 位，讓用 villages.geojson 重算的熱點和 links/impact 一致"
+        },
+        {
+          "id": "M2-6",
+          "title": "即時收集程式：VD、公車、雨量、路況，累積成序列",
+          "status": "done",
+          "output": [
+            "pipeline/collect_live.py",
+            "pipeline/live.py",
+            "dashboard/public/data/live/"
+          ],
+          "done_at": "2026-10-14",
+          "note": "背景常駐中；原始即時快照保留 3 天"
+        },
+        {
+          "id": "M2-7",
+          "title": "TDX 歷史 VD：內湖晨峰真實曲線（取代模擬）",
+          "status": "done",
+          "output": [
+            "pipeline/history.py",
+            "data/raw/tdx/vd_hist_*.ndjson.gz"
+          ],
+          "done_at": "2026-10-14",
+          "note": "抓 2026-09-29～10-13 共 10 個平日（10-09 國定假日不抓），10-02 時間戳異常排除，採用 9 天；固定樣本 47 支 VD；晨峰 V/C 0.53。資料品質規則寫在 history.py 的 RULES，04 的「晨峰資料品質」面板顯示同樣的文字"
+        }
+      ]
+    },
+    {
+      "id": "M3",
+      "title": "儀表板（Vite + React + TypeScript + MapLibre）",
+      "status": "done",
+      "tasks": [
+        {
+          "id": "M3-1",
+          "title": "專案骨架、字型、設計 token",
+          "status": "done",
+          "done_at": "2026-10-14",
+          "output": [
+            "dashboard/",
+            "dashboard/src/styles/tokens.css"
+          ],
+          "note": "IBM Plex Sans／Mono + Noto Sans TC，標題用 Chakra Petch；深色主題；題目色只用來辨識，狀態色保留給狀態並附符號"
+        },
+        {
+          "id": "M3-2",
+          "title": "總覽：融合指數地圖、關聯圖、優先處理清單",
+          "status": "done",
+          "done_at": "2026-10-14",
+          "output": [
+            "dashboard/src/views/Overview.tsx"
+          ]
+        },
+        {
+          "id": "M3-3",
+          "title": "六個題目模組：KPI、地圖圖層、檢視器、時間軸",
+          "status": "done",
+          "done_at": "2026-10-14",
+          "output": [
+            "dashboard/src/views/domain/"
+          ],
+          "note": "共用框架 Frame.tsx：KPI、地圖、里排名、跨題關聯、1999 陳情、模型假設與資料來源"
+        },
+        {
+          "id": "M3-4",
+          "title": "SVG 動畫示意圖（車流、樹蔭、清潔箱、鼠患、公車、耐震）",
+          "status": "done",
+          "done_at": "2026-10-14",
+          "output": [
+            "dashboard/src/schematics/"
+          ],
+          "note": "六張示意圖嵌在各題模組，#/schem 並排檢視"
+        },
+        {
+          "id": "M3-5",
+          "title": "成效模型與情境滑桿（例：彈性工時 → 延滯減少率）",
+          "status": "done",
+          "done_at": "2026-10-14",
+          "output": [
+            "dashboard/src/lib/impact.ts",
+            "dashboard/src/lib/state.ts"
+          ],
+          "note": "04 用歷史 VD 實測車速校準 BPR（α 2.33、自由車速 46.8 km/h、RMSE 1.34），加上「減量」槓桿；預設彈性工時 5% + 減量 5%，延滯 −25.8%，每年省 2.2 萬車小時"
+        },
+        {
+          "id": "M3-6",
+          "title": "關聯分析頁、資料血緣頁",
+          "status": "done",
+          "done_at": "2026-10-14",
+          "output": [
+            "dashboard/src/views/Links.tsx",
+            "dashboard/src/views/Lineage.tsx"
+          ],
+          "note": "LX：相關矩陣、共同熱點、成因機制、負責局處。DL：53 個原始檔 → 28 個輸出 → 8 個畫面，資料清冊、即時串流、模擬資料清單"
+        },
+        {
+          "id": "M3-7",
+          "title": "即時輪詢，標示資料擷取時間和模擬資料",
+          "status": "done",
+          "done_at": "2026-10-14",
+          "output": [
+            "dashboard/src/lib/data.ts",
+            "dashboard/src/components/Panel.tsx"
+          ],
+          "note": "每 15 秒檢查 live/status.json；頂列顯示 5 個串流狀態，收集程式超過 10 分鐘沒更新就警示。Prov 可用資料組名稱（如 petitions），自動展開所有快取的月份檔"
+        }
+      ]
+    },
+    {
+      "id": "M4",
+      "title": "驗證與文件",
+      "status": "done",
+      "tasks": [
+        {
+          "id": "M4-1",
+          "title": "瀏覽器實測、截圖檢查、修正",
+          "status": "done",
+          "done_at": "2026-10-14",
+          "note": "修正：民國月份格式當機、CSS 前綴衝突（血緣頁改用 ln-）、捲動與溢出、分數取整造成的熱點不一致"
+        },
+        {
+          "id": "M4-2",
+          "title": "更新 CLAUDE.md、code_structure.md，新增 README（真實／模擬資料對照）",
+          "status": "done",
+          "done_at": "2026-10-14",
+          "output": [
+            "README.md",
+            "code_structure.md",
+            "api.md"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M5",
+      "title": "後續",
+      "status": "todo",
+      "tasks": [
+        {
+          "id": "M5-1",
+          "title": "排程每天抓前一天的 TDX 歷史 VD，自動重建",
+          "status": "todo"
+        },
+        {
+          "id": "M5-2",
+          "title": "部署（靜態網站 + 排程抓取）",
+          "status": "todo"
+        },
+        {
+          "id": "M5-3",
+          "title": "第 7 題（自由題，例如用雨量站與雨水下水道水位做淹水預警）",
+          "status": "todo"
+        }
+      ]
+    }
+  ],
+  "data_refresh_schedule": {
+    "note": "依 CLAUDE.md 資料快取規則：只在手動執行或排程時抓取，失敗時保留舊檔。",
+    "static": {
+      "command": ".venv/bin/python -m pipeline.fetch",
+      "cadence": "超過 7 天才重抓（STALE_DAYS）"
+    },
+    "history": {
+      "command": ".venv/bin/python -m pipeline.fetch --only vd_hist && .venv/bin/python -m pipeline.build",
+      "cadence": "平日 06:00 後（前一天的資料隔天清晨才發布）；已存的日期不重抓，週末和國定假日跳過"
+    },
+    "live": [
+      {
+        "key": "vd_live",
+        "title": "VD 即時車流",
+        "interval_s": 60
+      },
+      {
+        "key": "bus_live",
+        "title": "公車即時位置",
+        "interval_s": 60
+      },
+      {
+        "key": "bus_eta",
+        "title": "公車預估到站",
+        "interval_s": 300
+      },
+      {
+        "key": "road_live",
+        "title": "TDX 路段即時路況",
+        "interval_s": 300
+      },
+      {
+        "key": "rain_live",
+        "title": "雨量站即時",
+        "interval_s": 600
+      }
+    ],
+    "peak_window": "題目 4 的晨峰曲線改用 TDX 歷史 VD；collect_live.py 只提供即時值和當天走勢"
+  },
+  "decisions": [
+    {
+      "date": "2026-10-14",
+      "decision": "沒有報名黑客松，自行開發、免費開源"
+    },
+    {
+      "date": "2026-10-14",
+      "decision": "只做題目 1–6，第 7 題先略過"
+    },
+    {
+      "date": "2026-10-14",
+      "decision": "抓到的資料一律存本機；UI 顯示資料擷取時間，模擬資料標「模擬資料」"
+    },
+    {
+      "date": "2026-10-14",
+      "decision": "示意圖用 SVG 動畫，不用 Three.js（較輕，也符合 2D 分析介面；需要 3D 時用 MapLibre fill-extrusion）"
+    },
+    {
+      "date": "2026-10-14",
+      "decision": "跨題目融合的空間單位用里（456 里）"
+    },
+    {
+      "date": "2026-10-14",
+      "decision": "「市長，你給我聽好了」市民痛點資料只限黑客松參加者，本專案不使用"
+    },
+    {
+      "date": "2026-10-14",
+      "decision": "04 的晨峰曲線用 TDX 歷史 VD 取代模擬資料，延滯模型（BPR）用實測車速校準"
+    },
+    {
+      "date": "2026-10-14",
+      "decision": "情境預設值：彈性工時 5% + 減量 5%"
+    },
+    {
+      "date": "2026-10-14",
+      "decision": "CSS 前綴：dl- 是題目模組的跨題關聯面板，資料血緣頁用 ln-，關聯頁用 lx-，04 資料品質面板用 qa-"
+    }
+  ],
+  "open_issues": [
+    "TDX secret 曾貼在對話中，建議到 TDX 會員中心重新產生",
+    "清潔箱滿溢沒有開放資料，「各清潔箱每日填滿速度」是目前唯一的模擬資料；逐棟屋齡、各站上下車人次也沒有開放資料，改用全市統計和每千人班次評估",
+    "陳情資料沒有地點，只能做全市月趨勢，不能落到里",
+    "TDX 歷史 VD 只有 $top 有效，每天要整份下載約 1.1 GB、100 秒，再在本機只留內湖晨峰",
+    "s4 壅塞分數用所有快取的路況快照計算：快照累積後數值會變動，也只反映收集程式有在跑的時段",
+    "sewer_lines、congestion_levels 有抓但沒有用到",
+    "里界、區界、VD 即時在資料清冊的筆數是空值（record_count = null）",
+    "live/peak.json 有寫出，但前端沒有讀"
+  ]
+}
