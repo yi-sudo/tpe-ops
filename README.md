@@ -31,7 +31,7 @@
 處理好的資料（`dashboard/public/data/`，約 10 MB）已經放在 repo 裡，只要 Node.js 22 以上：
 
 ```bash
-git clone https://github.com/<你的帳號>/tpe-ops.git
+git clone https://github.com/yi-sudo/tpe-ops.git
 cd tpe-ops/dashboard
 npm install
 npm run dev          # 開啟 http://localhost:5173/
