@@ -1,6 +1,6 @@
 {
   "project": "taipei_gogo 臺北市政營運儀表板",
-  "updated_at": "2026-10-14T17:00:00+08:00",
+  "updated_at": "2026-10-15T12:00:00+08:00",
   "scope": "題目 1–6（第 7 題先略過）。給市府內部用的專業儀表板，Palantir 風格，要呈現題目之間的關聯、解題後的成效指標和即時數值。",
   "status_legend": {
     "done": "完成",
@@ -233,6 +233,15 @@
       "status": "todo",
       "tasks": [
         {
+          "id": "M5-0",
+          "title": "宣傳影片（約 2 分鐘）",
+          "status": "done",
+          "done_at": "2026-10-15",
+          "output": [
+            "promo/"
+          ]
+        },
+        {
           "id": "M5-1",
           "title": "排程每天抓前一天的 TDX 歷史 VD，自動重建",
           "status": "todo"
@@ -246,6 +255,18 @@
           "id": "M5-3",
           "title": "第 7 題（自由題，例如用雨量站與雨水下水道水位做淹水預警）",
           "status": "todo"
+        },
+        {
+          "id": "M5-4",
+          "title": "公開 GitHub repo tpe-ops（MIT）：移除機密、README 寫金鑰申請與啟動方式",
+          "status": "in_progress",
+          "output": [
+            "README.md",
+            "LICENSE",
+            ".env.example",
+            "requirements.txt"
+          ],
+          "note": "機密掃描通過（.env、data/、.venv、音樂、影片都不提交）；等 gh 登入後建立並推送"
         }
       ]
     }
@@ -325,6 +346,10 @@
     {
       "date": "2026-10-14",
       "decision": "CSS 前綴：dl- 是題目模組的跨題關聯面板，資料血緣頁用 ln-，關聯頁用 lx-，04 資料品質面板用 qa-"
+    },
+    {
+      "date": "2026-10-15",
+      "decision": "公開 repo 名稱 tpe-ops，MIT 授權；處理好的 dashboard/public/data 一起提交，不用金鑰也能看儀表板"
     }
   ],
   "open_issues": [

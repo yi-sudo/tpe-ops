@@ -1,0 +1,5 @@
+html,body{margin:0;width:1920px;height:1080px;background:#000;color:#fff;font-family:"PingFang TC","Noto Sans TC",sans-serif;overflow:hidden}
+.c{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 200px}
+.in{opacity:0;transform:translateY(14px);animation:in 1s ease forwards}
+@keyframes in{to{opacity:1;transform:none}}
+.mono{font-family:"IBM Plex Mono",Menlo,monospace;letter-spacing:.08em}

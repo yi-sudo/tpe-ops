@@ -7,3 +7,10 @@ dist/
 .DS_Store
 __pycache__/
 *.pyc
+
+# promo video: rendered output, downloaded music, intermediate frames
+promo/*.mp4
+promo/music/
+promo/frames/
+promo/seg/
+promo/chk/

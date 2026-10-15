@@ -26,26 +26,41 @@
 
 每個圖表和地圖都標示資料來源和「資料擷取時間」。模擬資料另外用「模擬資料」標章和斜線底紋標示。
 
-## 執行
+## 快速開始：只看儀表板（不需要金鑰）
 
-需要 Python 3.11 以上、Node.js 22 以上，以及 TDX 會員的 API 金鑰。
+處理好的資料（`dashboard/public/data/`，約 10 MB）已經放在 repo 裡，只要 Node.js 22 以上：
+
+```bash
+git clone https://github.com/<你的帳號>/tpe-ops.git
+cd tpe-ops/dashboard
+npm install
+npm run dev          # 開啟 http://localhost:5173/
+```
+
+- 畫面上的數字是 repo 內資料的擷取時間（每個圖表都有標示），不會自動更新
+- 頂列的即時串流會顯示「延遲」，因為本機沒有在跑收集程式。要看即時資料請照下一節操作
+
+打包成靜態網站：`npm run build`，輸出在 `dashboard/dist/`，可以放到任何靜態主機（GitHub Pages、Netlify 等）。
+
+## 完整執行：自己抓資料、更新即時資料
+
+需要 Python 3.11 以上、Node.js 22 以上，以及 TDX 的 API 金鑰（申請方式見下一節）。
 
 ```bash
 # 1. Python 環境
 python3 -m venv .venv
-.venv/bin/pip install requests numpy pandas shapely pyproj pyshp
+.venv/bin/pip install -r requirements.txt
 
-# 2. TDX 金鑰：在專案根目錄建立 .env（已在 .gitignore，不可提交）
-#    TDX_CLIENT_ID=...
-#    TDX_CLIENT_SECRET=...
-python3 tdx_check.py                                # 驗證金鑰
+# 2. TDX 金鑰
+cp .env.example .env                                # 填入 TDX_CLIENT_ID、TDX_CLIENT_SECRET
+.venv/bin/python tdx_check.py                       # 驗證金鑰，成功會印出 OK 和一段測試資料
 
-# 3. 抓資料（只有這一步會連外部 API，結果存在 data/raw/）
-.venv/bin/python -m pipeline.fetch                  # 靜態資料
+# 3. 抓資料（只有這一步會連外部 API，結果存在 data/raw/，不會提交到 git）
+.venv/bin/python -m pipeline.fetch                  # 靜態資料（TDX 有節流，每 13 秒一次）
 .venv/bin/python -m pipeline.fetch --live           # 一次即時快照
 .venv/bin/python -m pipeline.history --days 10      # 選用：TDX 歷史 VD，04 改用真實晨峰曲線（每天約 1.1 GB、100 秒）
 
-# 4. 處理成儀表板資料（只讀本機檔案，約 6 秒）
+# 4. 處理成儀表板資料（只讀本機檔案，約 6 秒，覆寫 dashboard/public/data/）
 .venv/bin/python -m pipeline.build
 
 # 5. 另開一個終端機，常駐收集即時資料
@@ -58,6 +73,38 @@ npm run dev                                         # http://localhost:5173/
 ```
 
 沒有執行第 3 步的 `pipeline.history` 時，04 的晨峰曲線會用模擬資料，畫面上會標示。
+
+## 申請 TDX 金鑰
+
+交通部 TDX 運輸資料流通服務的資料（路段、路況、捷運車站與線型、VD 歷史資料）需要金鑰，免費申請：
+
+1. 到 https://tdx.transportdata.tw/ 註冊會員，完成 email 驗證
+2. 登入後進入「會員中心」→「資料服務」→「API 金鑰」，系統會產生一組 **Client Id** 和 **Client Secret**
+3. 把兩個值填進專案根目錄的 `.env`（由 `.env.example` 複製）：
+   ```
+   TDX_CLIENT_ID=你的 Client Id
+   TDX_CLIENT_SECRET=你的 Client Secret
+   ```
+4. 執行 `.venv/bin/python tdx_check.py` 確認可以換到 token
+
+注意：
+
+- `.env` 已在 `.gitignore`，**不要提交、不要貼到 issue 或聊天室**。外洩時到 TDX 會員中心重新產生
+- 一般會員每分鐘只能呼叫 5 次。`pipeline/common.py` 已經做好節流（TDX 每 13 秒一次）和 429 重試
+- access token 有效 24 小時，快取在 `data/.cache/`，不會每次重新申請
+- 端點、參數和歷史資料的細節見 `api.md`
+
+其他來源**不需要金鑰**：
+
+| 來源 | 用途 |
+|---|---|
+| 臺北市資料大平臺（data.taipei） | 行道樹、清潔箱、陳情、人口、餐飲業、消防等 |
+| 臺北市交通局 tcgbusfs | 公車路線、站牌、即時位置、預估到站、VD |
+| 公園處、大地處（soil.taipei）、統計資料庫（tsis） | 公園樹木、土壤液化、建物與公車統計 |
+| 水利處（wic.gov.taipei） | 雨量站即時資料（使用水利處公開的資料 key，已寫在 `pipeline/sources.py`） |
+| 見鼠地圖（ratdar.taipei） | 見鼠通報 |
+
+沒有 TDX 金鑰時，`pipeline.fetch` 仍會抓完其他來源（TDX 的項目會列為失敗），但 `pipeline.build` 需要 TDX 的捷運車站和路段線型，所以**要自己重建儀表板資料就必須申請金鑰**。只看儀表板不需要。
 
 ## 資料更新
 
@@ -114,6 +161,9 @@ npm run dev                                         # http://localhost:5173/
 - `code_structure.md`：程式結構、資料流、指令
 - `api.md`：API 端點、rid、TDX 認證、限制、TDX 歷史資料
 - `task.json`：排程與進度
+- `requirements.txt`：Python 套件版本
+- `.env.example`：`.env` 範本（TDX 金鑰）
+- `promo/`：宣傳影片的錄製與剪輯腳本
 
 ## 資料來源與授權
 
@@ -121,3 +171,24 @@ npm run dev                                         # http://localhost:5173/
   - 臺北市資料大平臺、臺北市交通局（tcgbusfs）、公園處、大地處、水利處、臺北市統計資料庫
   - 交通部 TDX 運輸資料流通服務
 - 見鼠地圖（ratdar.taipei）是民間平臺，使用它公開匯出的通報資料，只保留臺北市的通報
+
+## 宣傳影片
+
+`promo/` 用 Playwright（系統的 Chrome）錄下儀表板操作，再用 ffmpeg 剪成約 2 分鐘的影片。影片和音樂檔不在 repo 裡。浮水印字型用 macOS 的 Helvetica（`assemble.py`），其他系統要改字型路徑。
+
+```bash
+cd promo
+npm install
+# 先在 http://127.0.0.1:5173/ 啟動儀表板（npm run dev），再錄製；可以只重錄部分片段，例如 node record.mjs d1,d2
+node record.mjs
+# 把 3 首配樂放進 promo/music/（見下方授權）後剪輯，需要 ffmpeg
+python3 assemble.py
+```
+
+配樂：Kevin MacLeod（incompetech.com）〈Inspired〉〈Digital Lemonade〉〈Crossing the Chasm〉，CC BY 4.0。
+
+## 授權
+
+- 程式碼：MIT License，見 `LICENSE`
+- 資料：依各來源的授權條款，見上方「資料來源與授權」
+- 開發者：Threads [@yz.zac](https://www.threads.com/@yz.zac)
