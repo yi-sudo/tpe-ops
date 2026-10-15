@@ -52,7 +52,7 @@ taipei_gogo/
     ├── package.json        dev、build（tsc -b + vite build）、lint（oxlint）、preview
     ├── vite.config.ts
     ├── index.html
-    ├── README.md           Vite 範本附的說明（專案說明看根目錄 README.md）
+    ├── README.md           前端指令（專案說明看根目錄 README.md）
     ├── public/data/        build.py 和 live.py 的輸出（見下方「public/data」）
     └── src/
         ├── main.tsx        進入點：字型、CSS（順序見「前端重點」）
