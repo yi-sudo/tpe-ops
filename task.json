@@ -1,6 +1,6 @@
 {
   "project": "taipei_gogo 臺北市政營運儀表板",
-  "updated_at": "2026-10-15T12:00:00+08:00",
+  "updated_at": "2026-10-15T13:00:00+08:00",
   "scope": "題目 1–6（第 7 題先略過）。給市府內部用的專業儀表板，Palantir 風格，要呈現題目之間的關聯、解題後的成效指標和即時數值。",
   "status_legend": {
     "done": "完成",
@@ -259,14 +259,15 @@
         {
           "id": "M5-4",
           "title": "公開 GitHub repo tpe-ops（MIT）：移除機密、README 寫金鑰申請與啟動方式",
-          "status": "in_progress",
+          "status": "done",
           "output": [
             "README.md",
             "LICENSE",
             ".env.example",
             "requirements.txt"
           ],
-          "note": "機密掃描通過（.env、data/、.venv、音樂、影片都不提交）；等 gh 登入後建立並推送"
+          "note": "https://github.com/yi-sudo/tpe-ops（公開、MIT）；機密掃描通過，.env、data/、.venv、音樂、影片都沒有提交",
+          "done_at": "2026-10-15"
         }
       ]
     }
