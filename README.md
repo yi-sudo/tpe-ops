@@ -11,6 +11,12 @@
 
 議題範圍參考「市政 debug松」公開的題目（https://puma.taipei/hackathon）。
 
+## 展示影片
+
+[![TPE//OPS 展示影片（約 2 分鐘）](docs/demo.jpg)](docs/demo.mp4)
+
+點圖片播放（`docs/demo.mp4`，約 2 分鐘）：依序展示全市總覽、六個議題模組、跨議題關聯、資料血緣。
+
 ## 用途
 
 每項議題都提供三種分析：
@@ -199,6 +205,7 @@ npm run dev                                         # http://localhost:5173/
 - `task.json`：排程與進度
 - `requirements.txt`：Python 套件版本
 - `.env.example`：`.env` 範本（TDX 金鑰）
+- `docs/`：展示影片與封面圖
 
 ## 資料來源
 
@@ -211,4 +218,5 @@ npm run dev                                         # http://localhost:5173/
 
 - 程式碼：MIT License，見 `LICENSE`
 - 資料：依各來源的授權條款，見上方「資料來源」
+- 展示影片配樂：Kevin MacLeod（incompetech.com）〈Digital Lemonade〉〈Crossing the Chasm〉，CC BY 4.0
 - 開發者：Threads [@yz.zac](https://www.threads.com/@yz.zac)

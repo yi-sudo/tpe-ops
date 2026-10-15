@@ -32,6 +32,7 @@ taipei_gogo/
 ├── .env.example            .env 範本（TDX_CLIENT_ID、TDX_CLIENT_SECRET）
 ├── LICENSE                 MIT
 ├── .env                    TDX 金鑰（不可提交）
+├── docs/                   展示影片 demo.mp4（約 2 分鐘）與 README 封面圖 demo.jpg
 ├── .gitignore
 ├── .venv/                  Python 虛擬環境（requests、numpy、pandas、shapely、pyproj、pyshp）
 ├── pipeline/               Python 資料管線
