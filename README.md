@@ -163,7 +163,6 @@ npm run dev                                         # http://localhost:5173/
 - `task.json`：排程與進度
 - `requirements.txt`：Python 套件版本
 - `.env.example`：`.env` 範本（TDX 金鑰）
-- `promo/`：宣傳影片的錄製與剪輯腳本
 
 ## 資料來源與授權
 
@@ -171,21 +170,6 @@ npm run dev                                         # http://localhost:5173/
   - 臺北市資料大平臺、臺北市交通局（tcgbusfs）、公園處、大地處、水利處、臺北市統計資料庫
   - 交通部 TDX 運輸資料流通服務
 - 見鼠地圖（ratdar.taipei）是民間平臺，使用它公開匯出的通報資料，只保留臺北市的通報
-
-## 宣傳影片
-
-`promo/` 用 Playwright（系統的 Chrome）錄下儀表板操作，再用 ffmpeg 剪成約 2 分鐘的影片。影片和音樂檔不在 repo 裡。浮水印字型用 macOS 的 Helvetica（`assemble.py`），其他系統要改字型路徑。
-
-```bash
-cd promo
-npm install
-# 先在 http://127.0.0.1:5173/ 啟動儀表板（npm run dev），再錄製；可以只重錄部分片段，例如 node record.mjs d1,d2
-node record.mjs
-# 把 3 首配樂放進 promo/music/（見下方授權）後剪輯，需要 ffmpeg
-python3 assemble.py
-```
-
-配樂：Kevin MacLeod（incompetech.com）〈Inspired〉〈Digital Lemonade〉〈Crossing the Chasm〉，CC BY 4.0。
 
 ## 授權
 

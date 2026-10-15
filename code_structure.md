@@ -43,11 +43,6 @@ taipei_gogo/
 │   ├── build.py            raw → dashboard/public/data/（六題指標、成效模型、關聯、資料目錄）
 │   ├── live.py             即時快照 → live/*.json（build.py 和 collect_live.py 共用）
 │   └── collect_live.py     常駐收集即時資料，更新 live/*.json 和 live/status.json
-├── promo/                  宣傳影片（約 2 分鐘）：npm i 後 node record.mjs 錄製（需開著 dev server），再 python assemble.py 剪接配樂
-│   ├── cards/              黑底字卡、標題、目標、缺口、片尾（HTML + CSS 動畫）
-│   ├── record.mjs          playwright-core + 本機 Chrome，CDP screencast 逐段錄製 → seg/*.mp4
-│   ├── assemble.py         ffmpeg 轉場串接 + 三段配樂（music/ 需自行下載 incompetech 的 3 首，CC BY 4.0）
-│   └── taipei_gogo_promo.mp4  成品（不提交）
 ├── data/                   （不提交）
 │   ├── raw/{來源}/          {名稱}_{YYYYMMDD-HHMM}.{副檔名}、{名稱}_latest.{副檔名}、{名稱}.meta.json
 │   │                       來源資料夾：data_taipei、tdx、tcgbusfs、tppkl、parks、ratdar、tsis、soil、wic
